@@ -30,6 +30,10 @@ class UserRequest(BaseModel):
     username: str
     password: str
 
+class UserMessage(BaseModel):
+    username: str
+    message: list[Conversation]
+    
 # ===== Models ====
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -52,6 +56,7 @@ client = AsyncOpenAI(
 )
 
 user_messages: list[Conversation] = []
+
 user_list: list[UserRequest] = [
     {
         "username": "username1",
@@ -62,7 +67,36 @@ user_list: list[UserRequest] = [
         "password": "$argon2id$v=19$m=65536,t=3,p=4$+22D0bk0qHU2MS6Yk8UFDg$9ann2cQfyG3bYR5vqISe8TL5Vg+5kP6BoWGH6fSs9ZY"
     }
 ]
-    
+
+user_messages: list[UserMessage] = [
+    {
+        "username": "username1",
+        "message": [
+            {
+                "role": "user",
+                "content": "What is the capital of Philippines?"
+            },
+            {
+                "role": "assistant",
+                "content": "The capital of the Philippines is Manila"
+            }
+        ]
+    },
+    {
+        "username": "username2",
+        "message": [
+            {
+                "role": "user",
+                "content": "What is the capital of Italy?"
+            },
+            {
+                "role": "assistant",
+                "content": "The capital of Italy is Rome"
+            }
+        ]
+    }
+]
+
 @app.post("/api/v1/messages/chat")
 async def create_chat(body: ChatRequest) -> ApiResponse:
     
@@ -129,10 +163,20 @@ async def login(body: UserRequest):
     
     access_token = create_access_token({"username": body.username, "type": "access_token"})
     
+    chat = None
+    
+    for row in user_messages:
+        if row['username'] == user['username']:
+            chat = row
+            break
+        
+    data = {
+        "chat": chat,
+        "access_token": access_token
+    }
+    
     return {
         "status": 201,
         "message": "User successfully created",
-        "data": {
-            "access_token": access_token
-        }
+        "data": data
     }
