@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from openai import AsyncOpenAI
@@ -29,6 +29,7 @@ class ApiResponse(BaseModel):
 class UserRequest(BaseModel):
     username: str
     password: str
+
 # ===== Models ====
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -51,12 +52,16 @@ client = AsyncOpenAI(
 )
 
 user_messages: list[Conversation] = []
-
-@app.get("/")
-def index():
-    return {
-        "message": "Hello"
+user_list: list[UserRequest] = [
+    {
+        "username": "username1",
+        "password": "$argon2id$v=19$m=65536,t=3,p=4$+22D0bk0qHU2MS6Yk8UFDg$9ann2cQfyG3bYR5vqISe8TL5Vg+5kP6BoWGH6fSs9ZY"
+    },
+    {
+        "username": "username2",
+        "password": "$argon2id$v=19$m=65536,t=3,p=4$+22D0bk0qHU2MS6Yk8UFDg$9ann2cQfyG3bYR5vqISe8TL5Vg+5kP6BoWGH6fSs9ZY"
     }
+]
     
 @app.post("/api/v1/messages/chat")
 async def create_chat(body: ChatRequest) -> ApiResponse:
@@ -81,16 +86,53 @@ async def create_chat(body: ChatRequest) -> ApiResponse:
 @app.post('/api/v1/users/create')
 async def create_user(body: UserRequest) -> ApiResponse:
     
+    if any(u["username"] == body.username for u in user_list):
+        raise HTTPException(status_code=409, detail="Username already exist")
+        
     access_token = create_access_token({"username": body.username, "type": "access_token"})
+    
+    hashed_password =  get_password_hash(body.password)
     
     data = {
         "username": body.username,
-        "password": get_password_hash(body.password), # This is for testing only
         "access_token": access_token
     }
+    
+    user_list.append({
+        "username": body.username,
+        "password": hashed_password
+    })
     
     return {
         "status": 201,
         "message": "User successfully created",
         "data": data
+    }
+    
+@app.post("/api/v1/auth/login")
+async def login(body: UserRequest):
+    
+    user = None
+    
+    for u in user_list:
+        if u["username"] == body.username:
+            user = u
+            break
+        
+    if user is None:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    is_password_valid = verify_password(body.password, user["password"])
+    
+    if is_password_valid is False:
+        raise HTTPException(status_code = 401, detail="Invalid credentials")
+    
+    access_token = create_access_token({"username": body.username, "type": "access_token"})
+    
+    return {
+        "status": 201,
+        "message": "User successfully created",
+        "data": {
+            "access_token": access_token
+        }
     }
