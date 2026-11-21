@@ -1,61 +1,39 @@
-import os
-from fastapi import FastAPI, HTTPException
+# FastAPI related imports
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+
 from openai import AsyncOpenAI
-from dotenv import load_dotenv
-from pwdlib import PasswordHash
-from typing import Any
+
+import uuid
 
 # Helpers
-from helpers.jwt_helper import create_access_token
+from helpers.jwt_helper import create_access_token, decode_token
 from helpers.password_helper import verify_password, get_password_hash
 
-load_dotenv()
-
-# Models
-class Conversation(BaseModel):
-    role: str
-    content: str
-
-class ChatRequest(BaseModel):
-    message: str
-    
-class ApiResponse(BaseModel):
-    status: int
-    message: str
-    data: Any = None
-
-class UserRequest(BaseModel):
-    username: str
-    password: str
-
-class UserMessage(BaseModel):
-    username: str
-    message: list[Conversation]
-    
-# ===== Models ====
-
-openai_api_key = os.getenv("OPENAI_API_KEY")
-ai_model = os.getenv("AI_MODEL")
-jwt_secret_key = os.getenv("SECRET_KEY")
-jwt_alg = os.getenv("ALGORITHM")
+# Schemas
+from schemas.chat import ChatRequest, Conversation
+from schemas.user import UserRequest, UserRecord, UserMessages
+from schemas.common import ApiResponse
+from config import settings
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:3000").split(","),
+    allow_origins=settings.cors_origins.split(","),
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 client = AsyncOpenAI(
     base_url='https://openrouter.ai/api/v1',
-    api_key=openai_api_key
+    api_key=settings.openai_api_key
 )
 
-user_messages: list[Conversation] = []
+security = HTTPBearer()
+
+messages: list[Conversation] = []
 
 user_list: list[UserRequest] = [
     {
@@ -68,53 +46,103 @@ user_list: list[UserRequest] = [
     }
 ]
 
-user_messages: list[UserMessage] = [
+user_messages: list[UserRecord] = [
     {
         "username": "username1",
-        "message": [
+        "messages": [
             {
-                "role": "user",
-                "content": "What is the capital of Philippines?"
-            },
-            {
-                "role": "assistant",
-                "content": "The capital of the Philippines is Manila"
+                "id": "59705889-852d-4a09-a1ba-8e37a849ae11",
+                "conversation": [
+                     {
+                        "role": "user",
+                        "content": "What is the capital of Philippines?"
+                    },
+                    {
+                        "role": "assistant",
+                        "content": "The capital of the Philippines is Manila"
+                    }
+                ]
             }
+           
         ]
     },
     {
         "username": "username2",
-        "message": [
+        "messages": [
             {
-                "role": "user",
-                "content": "What is the capital of Italy?"
-            },
-            {
-                "role": "assistant",
-                "content": "The capital of Italy is Rome"
+                "id": "59705889-852d-4a09-a1ba-8e37a849ae11",
+                "conversation": [
+                        {
+                        "role": "user",
+                        "content": "What is the capital of Philippines?"
+                    },
+                    {
+                        "role": "assistant",
+                        "content": "The capital of the Philippines is Manila"
+                    }
+                ]
             }
         ]
     }
 ]
 
+def get_user(username: str):
+    for row in user_messages:
+        if row['username'] == username:
+            return row
+        
 @app.post("/api/v1/messages/chat")
-async def create_chat(body: ChatRequest) -> ApiResponse:
+async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = Depends(security)) -> ApiResponse:
     
-    user_messages.append({"role": "user", "content": body.message})
+    token = creds.credentials
+    
+    decoded_token = decode_token(token)
+    
+    conversation_id: str = body.id or str(uuid.uuid4())
+    
+    if body.id is None:
+        record = get_user(decoded_token['username'])
+        record['messages'].append({
+            "id": conversation_id,
+            "conversation": []
+        })
+        
+    user_list_messages: list[UserMessages] = []
+    
+    for row in user_messages:
+        if row['username'] == decoded_token['username']:
+            user_list_messages = row['messages']
+            break
+    
+    conversation: list[Conversation] = []
+    
+    for row in user_list_messages:
+        if row['id'] == body.id:
+            conversation = row['conversation']
+    
+    
+    conversation.append({"role": "user", "content": body.message})
     
     response = await client.chat.completions.create(
-        model=ai_model, 
-        messages=user_messages
+        model=settings.  ai_model, 
+        messages=conversation
     )
     
     reply = response.choices[0].message.content
     
-    user_messages.append({"role": "assistant", "content": reply})
+    conversation.append({"role": "assistant", "content": reply})
     
+    record = get_user(decoded_token['username'])
+    
+    for c in record['messages']:
+        if c['id'] == conversation_id:
+            c['conversation'] = conversation
+            break
+            
     return {
         "status": 200,
         "message": "Chat successfully created",
-        "data": [{"role": "assistant", "content": reply}]
+        "data": {"id": conversation_id, "role": "assistant", "content": reply}
     }
 
 @app.post('/api/v1/users/create')
