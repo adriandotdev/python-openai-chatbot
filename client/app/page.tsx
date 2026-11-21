@@ -39,6 +39,11 @@ function toMessages(history: Conversation["messages"]): Message[] {
   return history.map((m, i) => ({ id: i, role: m.role, content: m.content }));
 }
 
+// Sidebar previews show plain text, not raw markdown from the model.
+function plain(text: string | undefined) {
+  return text?.replace(/[*_`#>]+/g, "").replace(/\s+/g, " ").trim();
+}
+
 function useIsNarrow() {
   const [narrow, setNarrow] = useState(false);
   useEffect(() => {
@@ -161,7 +166,7 @@ export default function Page() {
   const history = [...session.conversations].reverse().map((c) => ({
     conversation: c,
     title: c.messages.find((m) => m.role === "user")?.content ?? "New chat",
-    reply: c.messages[c.messages.length - 1]?.content,
+    reply: plain(c.messages[c.messages.length - 1]?.content),
   }));
 
   const hour = new Date().getHours();
@@ -175,11 +180,8 @@ export default function Page() {
   ];
 
   return (
-    <HStack
-      height="100dvh"
-      align="stretch"
-      style={{ background: "var(--color-background-body)" }}
-    >
+    <main className="chat-shell">
+    <HStack height="100%" align="stretch">
       {(!isNarrow || isNavOpen) && (
         <VStack
           as="nav"
@@ -190,9 +192,7 @@ export default function Page() {
           gap={4}
         >
           <HStack gap={2} align="center" justify="between" paddingInline={1}>
-            <Heading level={2} weight="semibold">
-              Flâneur
-            </Heading>
+            <h2 className="chat-wordmark">Flâneur</h2>
             <Button
               label={mode === "dark" ? "Light" : "Dark"}
               aria-label={`Switch to ${mode === "dark" ? "light" : "dark"} mode`}
@@ -203,7 +203,7 @@ export default function Page() {
           </HStack>
           <Button
             label="New chat"
-            variant="secondary"
+            variant="primary"
             onClick={startNewChat}
             isDisabled={
               isLoading || (activeId === null && messages.length === 0)
@@ -211,6 +211,7 @@ export default function Page() {
             width="100%"
           />
           <VStack gap={1} isScrollable style={{ flex: 1, minHeight: 0 }}>
+            {history.length > 0 && <p className="chat-recents">Récents</p>}
             {history.length === 0 ? (
               <Text color="secondary" size="sm">
                 Your conversations will appear here.
@@ -246,80 +247,84 @@ export default function Page() {
           paddingInlineEnd={1}
           style={{ flex: 1, minWidth: 0 }}
         >
-          <VStack
-            height="100%"
-            style={{
-              flex: 1,
-              minHeight: 0,
-              overflow: "hidden",
-              background: "var(--color-background-surface)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-container)",
-            }}
-          >
+          <VStack height="100%" className="chat-sheet">
             {isNarrow && (
-              <HStack gap={2} align="center" padding={2}>
+              <header className="chat-topbar">
+                <h2 className="chat-wordmark">Flâneur</h2>
                 <Button
                   label="Chats"
                   variant="ghost"
                   onClick={() => setIsNavOpen(true)}
                 />
-              </HStack>
+              </header>
             )}
             <ChatLayout
+              density="spacious"
               composer={
                 <ChatComposer
                   onSubmit={handleSubmit}
                   isDisabled={isLoading}
-                  placeholder="Ask about Paris..."
+                  placeholder="Where to next in Paris?"
                   elevation="none"
                 />
               }
               emptyState={
-                <VStack gap={5} align="center" maxWidth="600px" padding={4}>
+                <section className="chat-welcome" aria-label="Start a conversation">
+                  <VStack gap={0} align="start">
+                    <Heading level={1} className="chat-greeting">
+                      <span className="chat-greeting-line">{greeting},</span>
+                      <br />
+                      {session.username}.
+                    </Heading>
+                    <p className="chat-lede">
+                      Ask about where to stay, what to eat or how to get around,
+                      or pick up a past trip from the sidebar.
+                    </p>
+                    <ul className="chat-starters">
+                      {starters.map((q) => (
+                        <li key={q}>
+                          <button
+                            type="button"
+                            className="chat-starter"
+                            disabled={isLoading}
+                            onClick={() => handleSubmit(q)}
+                          >
+                            <span>{q}</span>
+                            <span aria-hidden="true">→</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </VStack>
                   <figure className="chat-hero">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/paris-blue-hour.jpg"
-                      alt="The Eiffel Tower lit gold against a deep blue evening sky"
-                      width={1920}
-                      height={1280}
-                      decoding="async"
-                    />
+                    <picture className="chat-hero-frame">
+                      <img
+                        src="/paris-blue-hour.jpg"
+                        alt="The Eiffel Tower lit gold against a deep blue evening sky"
+                        width={1920}
+                        height={1280}
+                        decoding="async"
+                      />
+                    </picture>
                     <figcaption>
                       Photo: alyssa BLACK., CC BY-SA 2.0, via Wikimedia Commons
                     </figcaption>
                   </figure>
-                  <VStack gap={2} align="center">
-                    <Heading level={1} type="display-3">
-                      {greeting}, {session.username}.
-                    </Heading>
-                    <Text color="secondary">
-                      Ask about where to stay, what to eat or how to get around, or
-                      pick up a past trip from the sidebar.
-                    </Text>
-                  </VStack>
-                  <HStack gap={2} wrap="wrap" justify="center">
-                    {starters.map((q) => (
-                      <Button
-                        key={q}
-                        label={q}
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => handleSubmit(q)}
-                      />
-                    ))}
-                  </HStack>
-                </VStack>
+                </section>
               }
             >
               {messages.length > 0 && (
                 <ChatMessageList isStreaming={isLoading}>
                   {messages.map((m) => (
                     <ChatMessage key={m.id} sender={m.role}>
-                      <ChatMessageBubble>
+                      <ChatMessageBubble
+                        variant={m.role === "assistant" ? "ghost" : "filled"}
+                      >
                         {m.role === "assistant" && !m.isError ? (
-                          <Markdown>{m.content}</Markdown>
+                          <section className="chat-reply">
+                            <p className="chat-byline">Flâneur</p>
+                            <Markdown>{m.content}</Markdown>
+                          </section>
                         ) : (
                           <Text>
                             {m.isError ? `Error: ${m.content}` : m.content}
@@ -330,8 +335,9 @@ export default function Page() {
                   ))}
                   {isLoading && (
                     <ChatMessage sender="assistant">
-                      <ChatMessageBubble>
-                        <Text color="secondary">Finding the way...</Text>
+                      <ChatMessageBubble variant="ghost">
+                        <p className="chat-byline">Flâneur</p>
+                        <span className="chat-thinking">Flâner…</span>
                       </ChatMessageBubble>
                     </ChatMessage>
                   )}
@@ -342,5 +348,6 @@ export default function Page() {
         </VStack>
       )}
     </HStack>
+    </main>
   );
 }

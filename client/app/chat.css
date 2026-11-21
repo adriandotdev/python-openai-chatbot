@@ -1,11 +1,201 @@
-/* Chat empty state: the same Paris photograph as the sign-in screen. */
+/*
+ * Flâneur chat: a Haussmann evening.
+ * Limestone ground, bleu-nuit ink, one brass detail, a serif voice for
+ * the name and the greeting. Tokens are scoped to .chat-shell so the
+ * Astryx components pick them up without touching the theme files.
+ */
+
+.chat-shell {
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --brass: #9a7b43;
+
+  --color-background-body: #f1eee8; /* pierre de taille */
+  --color-background-muted: #f1eee8;
+  --color-background-surface: #fbfaf7;
+  --color-text-primary: #0d1633;
+  --color-accent: #14215a;
+  --chat-rule: rgb(13 22 51 / 0.1);
+  --chat-user: #e8e4db;
+
+  height: 100dvh;
+  background: var(--color-background-body);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .chat-shell {
+  --brass: #c9a56a;
+  --color-background-body: #080e2b; /* bleu nuit */
+  --color-background-muted: #080e2b;
+  --color-background-surface: #0e1740;
+  --color-text-primary: #ece9e1;
+  --color-accent: #7d97ff;
+  --chat-rule: rgb(236 233 225 / 0.12);
+  --chat-user: #1a2658;
+}
+
+/* ---------- Sidebar ---------- */
+
+.chat-wordmark {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.chat-wordmark::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 4px;
+  border-radius: 50%;
+  background: var(--brass);
+}
+
+.chat-recents {
+  margin: 4px 4px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brass);
+}
+
+/* ---------- The sheet ---------- */
+
+.chat-sheet {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--color-background-surface);
+  border-radius: 28px;
+}
+
+.chat-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+}
+
+/* ---------- Empty state: a poster ---------- */
+
+.chat-welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  /* The empty-state slot shrink-wraps, so state the width outright:
+     the area right of the 264px sidebar, capped. */
+  flex: none; /* the 800px message column must not squeeze it */
+  width: min(1040px, calc(100vw - 296px));
+  padding: 24px clamp(24px, 4vw, 56px);
+}
+
+.chat-welcome > * {
+  animation: chat-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.chat-welcome > :nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.chat-greeting {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(44px, 5.2vw, 76px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.chat-greeting-line {
+  white-space: nowrap;
+}
+
+.chat-lede {
+  margin: 20px 0 0;
+  max-width: 44ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  opacity: 0.78;
+}
+
+.chat-starters {
+  display: flex;
+  flex-direction: column;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chat-starter {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 4px;
+  font: inherit;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: left;
+  color: var(--color-text-primary);
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--chat-rule);
+  cursor: pointer;
+  transition:
+    padding 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 160ms;
+}
+
+.chat-starters li:last-child .chat-starter {
+  border-bottom: 1px solid var(--chat-rule);
+}
+
+.chat-starter span:last-child {
+  flex: none;
+  font-family: var(--font-family-body, inherit);
+  font-size: 18px;
+  color: var(--brass);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chat-starter:hover {
+  padding-left: 12px;
+}
+.chat-starter:hover span:last-child {
+  transform: translateX(4px);
+}
+.chat-starter:active {
+  transform: scale(0.99);
+}
+.chat-starter:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.chat-starter:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .chat-hero {
   position: relative;
-  width: 100%;
-  height: clamp(140px, 24vh, 220px);
   margin: 0;
+}
+
+.chat-hero-frame {
+  display: block;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  border-radius: var(--radius-container);
+  border-radius: 200px 200px 20px 20px; /* the arch of a Paris window */
   background: #0b1a52;
 }
 
@@ -14,17 +204,146 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 42% 12%;
+  object-position: 41% 20%;
+  transform-origin: 50% 60%;
+  animation: chat-drift 24s ease-out both;
 }
 
 .chat-hero figcaption {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  padding: 24px 12px 6px;
-  font-size: 11px;
-  color: #fff;
-  background: linear-gradient(to top, rgb(5 10 36 / 0.75), rgb(5 10 36 / 0));
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  opacity: 0.6;
+}
+
+/* ---------- Conversation ---------- */
+
+/* You: a soft limestone pill. */
+.chat-shell .astryx-chat-message-bubble[data-variant="filled"] {
+  background: var(--chat-user);
+  color: var(--color-text-primary);
+  border-radius: 22px 22px 6px 22px;
+}
+
+/* The composer floats above the thread, so it alone carries a shadow. */
+.chat-shell .astryx-chat-composer > :first-child {
+  background: var(--color-background-surface);
+  border: 1px solid var(--chat-rule);
+  border-radius: 28px;
+  box-shadow: 0 10px 30px -12px rgb(13 22 51 / 0.18);
+  transition:
+    border-color 200ms,
+    box-shadow 200ms;
+}
+.chat-shell .astryx-chat-composer > :first-child:focus-within {
+  border-color: var(--brass);
+  box-shadow: 0 14px 36px -12px rgb(13 22 51 / 0.26);
+}
+
+/* Selected conversation: a tone step, with a brass tick. */
+.chat-shell .astryx-item[data-selected] {
+  background: var(--chat-user);
+  box-shadow: inset 3px 0 0 var(--brass);
+}
+
+.chat-byline {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brass);
+}
+
+/* Assistant replies are set like a printed itinerary, not a bubble. */
+.chat-reply {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.chat-reply strong {
+  font-weight: 600;
+}
+
+.chat-thinking {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--brass);
+  animation: chat-breathe 1.8s ease-in-out infinite;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes chat-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes chat-drift {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes chat-breathe {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-welcome > *,
+  .chat-hero img,
+  .chat-thinking {
+    animation: none;
+  }
+  .chat-starter,
+  .chat-starter span:last-child {
+    transition: none;
+  }
+}
+
+/* ---------- Smaller screens ---------- */
+
+@media (max-width: 860px) {
+  .chat-welcome {
+    width: min(1040px, calc(100vw - 32px));
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-block: 16px;
+  }
+  .chat-hero {
+    order: -1;
+  }
+  .chat-hero-frame {
+    aspect-ratio: 3 / 1;
+    border-radius: 80px 80px 16px 16px;
+  }
+  .chat-hero img {
+    object-position: 41% 22%;
+  }
+  .chat-lede {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+  .chat-starters {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 860px), (max-height: 700px) {
+  .chat-hero figcaption {
+    display: none;
+  }
 }
 
 @media (max-height: 640px) {

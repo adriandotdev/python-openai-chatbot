@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Instrument+Sans:wght@400;500;600&display=swap"
         />
       </head>
       <body>
