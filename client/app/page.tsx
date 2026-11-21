@@ -25,6 +25,7 @@ import {
   API_URL,
   clearSession,
   deleteConversation,
+  fetchConversations,
   loadSession,
   saveSession,
   type Conversation,
@@ -80,6 +81,27 @@ export default function Page() {
       return;
     }
     setSession(stored);
+
+    // Refresh from the server so a reload shows the user's actual conversations.
+    let cancelled = false;
+    fetchConversations(stored.accessToken)
+      .then((conversations) => {
+        if (cancelled) return;
+        const fresh: Session = { ...stored, conversations };
+        setSession((prev) => (prev ? { ...prev, conversations } : prev));
+        saveSession(fresh);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        if (err instanceof Error && err.message === "UNAUTHORIZED") {
+          clearSession();
+          setSession(null);
+          router.replace("/login");
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   if (!session) return null;

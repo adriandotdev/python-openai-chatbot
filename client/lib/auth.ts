@@ -34,6 +34,23 @@ export function clearSession() {
   } catch {}
 }
 
+export async function fetchConversations(
+  accessToken: string,
+): Promise<Conversation[]> {
+  const res = await fetch(`${API_URL}/api/v1/messages`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (res.status === 401) throw new Error("UNAUTHORIZED");
+  if (!res.ok) throw new Error(`Could not load conversations (${res.status})`);
+  const json: {
+    messages?: { id: string; conversation: ChatMessageData[] }[];
+  } | null = await res.json();
+  return (json?.messages ?? []).map((c) => ({
+    id: c.id,
+    messages: c.conversation ?? [],
+  }));
+}
+
 export async function deleteConversation(
   accessToken: string,
   id: string,
