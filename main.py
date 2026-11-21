@@ -91,22 +91,35 @@ user_messages: list[UserRecord] = [
     }
 ]
 
+def get_current_user(
+    creds: HTTPAuthorizationCredentials = Depends(security)
+) -> str:
+    payload = decode_token(creds.credentials) 
+    
+    username = payload.get("username")
+    
+    if not username:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    return username
+
 def get_user(username: str):
     for row in user_messages:
         if row['username'] == username:
             return row
-        
+       
+@app.get('/api/v1/messages') 
+def get_conversations(username: str = Depends(get_current_user)):
+    
+    return get_user(username)
+
 @app.post("/api/v1/messages/chat")
-async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = Depends(security)) -> ApiResponse:
-    
-    token = creds.credentials
-    
-    decoded_token = decode_token(token)
+async def create_chat(body: ChatRequest, username: str = Depends(get_current_user)) -> ApiResponse:
     
     conversation_id: str = body.id or str(uuid.uuid4())
     
     if body.id is None:
-        record = get_user(decoded_token['username'])
+        record = get_user(username)
         record['messages'].append({
             "id": conversation_id,
             "conversation": []
@@ -115,7 +128,7 @@ async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = D
     user_list_messages: list[UserMessages] = []
     
     for row in user_messages:
-        if row['username'] == decoded_token['username']:
+        if row['username'] == username:
             user_list_messages = row['messages']
             break
     
@@ -137,7 +150,7 @@ async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = D
     
     conversation.append({"role": "assistant", "content": reply})
     
-    record = get_user(decoded_token['username'])
+    record = get_user(username)
     
     for c in record['messages']:
         if c['id'] == conversation_id:
@@ -151,16 +164,8 @@ async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = D
     }
 
 @app.delete('/api/v1/messages/chat/{id}')
-def delete_conversation_by_id(id: str, creds: HTTPAuthorizationCredentials = Depends(security)) -> ApiResponse:
-    token = creds.credentials
-    
-    decoded_token = decode_token(token)
-    
-    # Username of the user using this API
-    username = decoded_token["username"]
-    
-    print(username)
-    
+def delete_conversation_by_id(id: str, username: str = Depends(get_current_user)) -> ApiResponse:
+  
     user_record = next((u for u in user_messages if u["username"] == username), None)
     
     if user_record is None:

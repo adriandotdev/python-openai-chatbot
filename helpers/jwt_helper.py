@@ -16,11 +16,14 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
     return encoded_jwt
 
-def decode_token(token: str):
+def decode_token(token: str) -> dict:
     try:
-        decoded_token = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
-
-        return decoded_token
+        return jwt.decode(
+            token,
+            settings.secret_key,
+            algorithms=[settings.algorithm],
+            options={"require": ["exp"]},
+        )
     except ExpiredSignatureError:
         raise HTTPException(
             status.HTTP_401_UNAUTHORIZED,
@@ -28,5 +31,9 @@ def decode_token(token: str):
             headers={"WWW-Authenticate": "Bearer"},
         )
     except InvalidTokenError:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
         
