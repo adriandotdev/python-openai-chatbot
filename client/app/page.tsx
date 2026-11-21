@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChatComposer,
@@ -37,7 +37,40 @@ type Message = {
   role: "user" | "assistant";
   content: string;
   isError?: boolean;
+  // True only for replies that just arrived; history renders instantly.
+  animate?: boolean;
 };
+
+// Reveals text progressively, like ChatGPT/Claude. The API returns the whole
+// reply at once, so the streaming effect is simulated on the client.
+function TypedMarkdown({ text, animate }: { text: string; animate?: boolean }) {
+  const reduced =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const skip = !animate || reduced;
+  const [count, setCount] = useState(skip ? text.length : 0);
+  const done = useRef(skip);
+
+  useEffect(() => {
+    if (done.current) return;
+    let raf = 0;
+    let last = performance.now();
+    let shown = 0;
+    // Finish within ~4s however long the reply is, but never slower than 60 cps.
+    const cps = Math.max(60, text.length / 4);
+    const tick = (now: number) => {
+      shown = Math.min(text.length, shown + ((now - last) / 1000) * cps);
+      last = now;
+      setCount(Math.floor(shown));
+      if (shown < text.length) raf = requestAnimationFrame(tick);
+      else done.current = true;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [text]);
+
+  return <Markdown>{count >= text.length ? text : text.slice(0, count)}</Markdown>;
+}
 
 function toMessages(history: Conversation["messages"]): Message[] {
   return history.map((m, i) => ({ id: i, role: m.role, content: m.content }));
@@ -184,7 +217,7 @@ export default function Page() {
       const { id: conversationId, content: reply } = json.data;
       setMessages((prev) => [
         ...prev,
-        { id: id + 1, role: "assistant", content: reply },
+        { id: id + 1, role: "assistant", content: reply, animate: true },
       ]);
       const added = [
         { role: "user" as const, content: message },
@@ -404,7 +437,7 @@ export default function Page() {
                         {m.role === "assistant" && !m.isError ? (
                           <section className="chat-reply">
                             <p className="chat-byline">Flâneur</p>
-                            <Markdown>{m.content}</Markdown>
+                            <TypedMarkdown text={m.content} animate={m.animate} />
                           </section>
                         ) : (
                           <Text>
