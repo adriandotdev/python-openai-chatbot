@@ -9,8 +9,10 @@ import {
   ChatMessageBubble,
   ChatMessageList,
 } from "@astryxdesign/core/Chat";
+import { AlertDialog } from "@astryxdesign/core/AlertDialog";
 import { Avatar } from "@astryxdesign/core/Avatar";
 import { Button } from "@astryxdesign/core/Button";
+import { ContextMenu } from "@astryxdesign/core/ContextMenu";
 import { Heading } from "@astryxdesign/core/Heading";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Item } from "@astryxdesign/core/Item";
@@ -22,6 +24,7 @@ import { useColorMode } from "./color-mode";
 import {
   API_URL,
   clearSession,
+  deleteConversation,
   loadSession,
   saveSession,
   type Conversation,
@@ -66,6 +69,9 @@ export default function Page() {
   const isNarrow = useIsNarrow();
   const { mode, toggle: toggleMode } = useColorMode();
   const [isNavOpen, setIsNavOpen] = useState(false);
+  // Conversation awaiting delete confirmation.
+  const [pendingDelete, setPendingDelete] = useState<Conversation | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const stored = loadSession();
@@ -98,6 +104,35 @@ export default function Page() {
     setActiveId(c.id);
     setMessages(toMessages(c.messages));
     setIsNavOpen(false);
+  }
+
+  async function handleDelete(c: Conversation) {
+    if (isLoading || !session) return;
+    setIsDeleting(true);
+    try {
+      await deleteConversation(session.accessToken, c.id);
+    } catch (err) {
+      setIsDeleting(false);
+      setPendingDelete(null);
+      if (err instanceof Error && err.message === "UNAUTHORIZED") {
+        handleLogout();
+        return;
+      }
+      window.alert(err instanceof Error ? err.message : "Could not delete.");
+      return;
+    }
+    setIsDeleting(false);
+    setPendingDelete(null);
+    const next: Session = {
+      ...session,
+      conversations: session.conversations.filter((x) => x.id !== c.id),
+    };
+    setSession(next);
+    saveSession(next);
+    if (activeId === c.id) {
+      setActiveId(null);
+      setMessages([]);
+    }
   }
 
   async function handleSubmit(text: string) {
@@ -181,6 +216,17 @@ export default function Page() {
 
   return (
     <main className="chat-shell">
+    <AlertDialog
+      isOpen={pendingDelete !== null}
+      onOpenChange={(open) => {
+        if (!open && !isDeleting) setPendingDelete(null);
+      }}
+      title="Delete this conversation?"
+      description="This conversation will be permanently deleted. This can't be undone."
+      actionLabel="Delete"
+      isActionLoading={isDeleting}
+      onAction={() => pendingDelete && handleDelete(pendingDelete)}
+    />
     <HStack height="100%" align="stretch">
       {(!isNarrow || isNavOpen) && (
         <VStack
@@ -218,16 +264,29 @@ export default function Page() {
               </Text>
             ) : (
               history.map((h) => (
-                <Item
+                <ContextMenu
                   key={h.conversation.id}
-                  label={h.title}
-                  description={h.reply}
-                  labelLines={1}
-                  descriptionLines={1}
-                  density="compact"
-                  isSelected={activeId === h.conversation.id}
-                  onClick={() => openConversation(h.conversation)}
-                />
+                  label={`Options for: ${h.title}`}
+                  items={[
+                    {
+                      label: "Delete",
+                      variant: "destructive",
+                      onClick: () => setPendingDelete(h.conversation),
+                    },
+                  ]}
+                >
+                  <div>
+                    <Item
+                      label={h.title}
+                      description={h.reply}
+                      labelLines={1}
+                      descriptionLines={1}
+                      density="compact"
+                      isSelected={activeId === h.conversation.id}
+                      onClick={() => openConversation(h.conversation)}
+                    />
+                  </div>
+                </ContextMenu>
               ))
             )}
           </VStack>
@@ -337,7 +396,14 @@ export default function Page() {
                     <ChatMessage sender="assistant">
                       <ChatMessageBubble variant="ghost">
                         <p className="chat-byline">Flâneur</p>
-                        <span className="chat-thinking">Flâner…</span>
+                        <span className="chat-thinking" role="status">
+                          Flâner
+                          <span className="chat-dots" aria-hidden="true">
+                            <i />
+                            <i />
+                            <i />
+                          </span>
+                        </span>
                       </ChatMessageBubble>
                     </ChatMessage>
                   )}

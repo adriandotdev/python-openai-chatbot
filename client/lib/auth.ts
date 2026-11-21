@@ -34,6 +34,18 @@ export function clearSession() {
   } catch {}
 }
 
+export async function deleteConversation(
+  accessToken: string,
+  id: string,
+): Promise<void> {
+  const res = await fetch(
+    `${API_URL}/api/v1/messages/chat/${encodeURIComponent(id)}`,
+    { method: "DELETE", headers: { Authorization: `Bearer ${accessToken}` } },
+  );
+  if (res.status === 401) throw new Error("UNAUTHORIZED");
+  if (!res.ok) throw new Error(`Delete failed (${res.status})`);
+}
+
 export async function login(
   username: string,
   password: string,

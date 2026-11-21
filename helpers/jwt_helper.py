@@ -1,9 +1,10 @@
 import os
 import jwt
-from jwt.exceptions import InvalidTokenError
+from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 from dotenv import load_dotenv
 from datetime import UTC, datetime, timedelta
 from config import settings
+from fastapi import HTTPException, status
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -16,6 +17,16 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 def decode_token(token: str):
-    decoded_token = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
+    try:
+        decoded_token = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithm])
 
-    return decoded_token
+        return decoded_token
+    except ExpiredSignatureError:
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            detail="Token expired",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    except InvalidTokenError:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        

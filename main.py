@@ -145,6 +145,42 @@ async def create_chat(body: ChatRequest, creds: HTTPAuthorizationCredentials = D
         "data": {"id": conversation_id, "role": "assistant", "content": reply}
     }
 
+@app.delete('/api/v1/messages/chat/{id}')
+def delete_conversation_by_id(id: str, creds: HTTPAuthorizationCredentials = Depends(security)) -> ApiResponse:
+    token = creds.credentials
+    
+    decoded_token = decode_token(token)
+    
+    # Username of the user using this API
+    username = decoded_token["username"]
+    
+    print(username)
+    
+    user_record = next((u for u in user_messages if u["username"] == username), None)
+    
+    if user_record is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    new_user_messages = []
+    
+    for record in user_record["messages"]:
+        if record["id"] != id:
+            new_user_messages.append(record)
+            
+    print(new_user_messages)
+    
+    for row in user_messages:
+        if row["username"] == username:
+            row["messages"] = new_user_messages
+            break
+        
+    return {
+        "status": 201,
+        "message": "Conversation successfully deleted"
+    }
+
+    
+    
 @app.post('/api/v1/users/create')
 async def create_user(body: UserRequest) -> ApiResponse:
     
@@ -205,6 +241,6 @@ async def login(body: UserRequest):
     
     return {
         "status": 201,
-        "message": "User successfully created",
+        "message": "Logged in successfully",
         "data": data
     }
