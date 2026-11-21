@@ -70,16 +70,21 @@ user_messages: list[UserRecord] = [
         "username": "username2",
         "messages": [
             {
-                "id": "59705889-852d-4a09-a1ba-8e37a849ae11",
-                "conversation": [
-                        {
-                        "role": "user",
-                        "content": "What is the capital of Philippines?"
-                    },
+                "messages": [
                     {
-                        "role": "assistant",
-                        "content": "The capital of the Philippines is Manila"
+                        "id": "59705889-852d-4a09-a1ba-8eZ37a849ae11",
+                        "conversation": [
+                                {
+                                "role": "user",
+                                "content": "What is the capital of Philippines?"
+                            },
+                            {
+                                "role": "assistant",
+                                "content": "The capital of the Philippines is Manila"
+                            }
+                        ]
                     }
+                    
                 ]
             }
         ]

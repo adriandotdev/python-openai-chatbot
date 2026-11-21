@@ -2,6 +2,20 @@
 
 A chat app with a FastAPI backend and a Next.js frontend. Users log in with a username and password, and the backend forwards their messages to an LLM through the OpenAI SDK, pointed at [OpenRouter](https://openrouter.ai). Conversations are kept per user.
 
+## Screenshots
+
+### Login
+
+![Login page](docs/screenshots/login.png)
+
+### New chat
+
+![New chat page with suggested prompts](docs/screenshots/chat.png)
+
+### Conversation
+
+![Conversation view with chat history in the sidebar](docs/screenshots/conversation.png)
+
 ## Project structure
 
 ```
@@ -11,6 +25,7 @@ A chat app with a FastAPI backend and a Next.js frontend. Users log in with a us
 ├── helpers/         # JWT and password hashing (argon2)
 ├── schemas/         # Pydantic models
 ├── requirements.txt
+├── docs/screenshots/ # Images used in this README
 └── client/          # Next.js 16 frontend (React 19)
 ```
 
