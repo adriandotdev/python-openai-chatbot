@@ -10,6 +10,7 @@ import uuid
 # Helpers
 from helpers.jwt_helper import create_access_token, decode_token
 from helpers.password_helper import verify_password, get_password_hash
+from helpers.prompts import system_prompt, response_guideline, response_tone
 
 # Schemas
 from schemas.chat import ChatRequest, Conversation
@@ -55,11 +56,11 @@ user_messages: list[UserRecord] = [
                 "conversation": [
                      {
                         "role": "user",
-                        "content": "What is the capital of Philippines?"
+                        "content": "What is the capital of France?"
                     },
                     {
                         "role": "assistant",
-                        "content": "The capital of the Philippines is Manila"
+                        "content": "Paris, of course, the City of Light! Stroll along the Seine and you'll see why."
                     }
                 ]
             }
@@ -74,13 +75,13 @@ user_messages: list[UserRecord] = [
                     {
                         "id": "59705889-852d-4a09-a1ba-8eZ37a849ae11",
                         "conversation": [
-                                {
+                            {
                                 "role": "user",
-                                "content": "What is the capital of Philippines?"
+                                "content": "What is the capital of France?"
                             },
                             {
                                 "role": "assistant",
-                                "content": "The capital of the Philippines is Manila"
+                                "content": "Paris, of course, the City of Light! Stroll along the Seine and you'll see why."
                             }
                         ]
                     }
@@ -132,7 +133,10 @@ async def create_chat(body: ChatRequest, username: str = Depends(get_current_use
             user_list_messages = row['messages']
             break
     
-    conversation: list[Conversation] = []
+    conversation: list[Conversation] = [{
+        "role": "system",
+        "content": system_prompt + response_guideline + response_tone
+    }]
     
     for row in user_list_messages:
         if row['id'] == body.id:
