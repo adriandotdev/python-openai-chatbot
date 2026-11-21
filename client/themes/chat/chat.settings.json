@@ -1,0 +1,31 @@
+{
+  "name": "chat",
+  "like": "neutral",
+  "mode": "both",
+  "settings": [
+    {
+      "thing": "accent",
+      "value": "#1b6e66",
+      "source": "dial"
+    },
+    {
+      "thing": "font",
+      "value": "Instrument Sans",
+      "source": "dial"
+    },
+    {
+      "thing": "border-radius",
+      "value": "22px",
+      "source": "property",
+      "on": "card"
+    },
+    {
+      "thing": "corners",
+      "value": "pill",
+      "source": "dial",
+      "on": "button"
+    }
+  ],
+  "lifted": [],
+  "palette": "1a7e77d5a6172f641fad91c8b41dd53dbb19b0fa102c938e5eeb1580df5a58c8"
+}

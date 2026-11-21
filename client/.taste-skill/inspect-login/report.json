@@ -1,0 +1,1122 @@
+{
+ "url": "http://localhost:3000/login",
+ "at": "2026-11-21T03:23:56.244Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 1,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 900,
+     "screens": 1,
+     "words": 25,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 29,
+     "vw": 2,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.38,
+     "top": 338,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "lines": 1,
+     "size": 29,
+     "font": "Instrument Sans"
+    },
+    "headings": [
+     {
+      "text": "Sign in to your chats",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 29,
+      "vw": 2,
+      "font": "Instrument Sans",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.38,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.25,
+      "top": 338,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Instrument Sans",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      14,
+      29
+     ],
+     "sizeCount": 3,
+     "notLoaded": [],
+     "body": {
+      "font": "Instrument Sans",
+      "size": 14,
+      "leading": 1.43,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.4
+     },
+     "measureChars": 51,
+     "max": {
+      "size": 29,
+      "vw": 2,
+      "font": "Instrument Sans",
+      "text": "Sign in to your chats"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#262626",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.15
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#9e9e9e",
+       "share": 0.77
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.17
+      },
+      {
+       "color": "#000000",
+       "share": 0.06
+      }
+     ],
+     "button": {
+      "bg": "#67bdb3",
+      "hsl": {
+       "h": 173,
+       "s": 0.39,
+       "l": 0.57
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign in"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 1,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 1,
+     "boxRadius": 22,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": [
+     "instrument sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 900,
+    "margins": {
+     "left": 542,
+     "right": 542
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Sign in to your chats",
+      "size": 29,
+      "top": 338,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 542,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.33,
+    "voidBox": {
+     "x": 0,
+     "y": 120,
+     "w": 540,
+     "h": 780
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 542,
+     "right": 542
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 29,
+     "vw": 2,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.38,
+     "top": 338,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 1,
+     "radii": [
+      [
+       22,
+       1
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#ffffff on #1b1b1b (17.22:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.13,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      12,
+      14,
+      29
+     ]
+    },
+    "title": {
+     "text": "Sign in to your chats",
+     "size": 29,
+     "top": 338
+    },
+    "colourShare": 0
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    1
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 1,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 1024,
+     "screens": 1,
+     "words": 25,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 29,
+     "vw": 3.8,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.38,
+     "top": 400,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "lines": 1,
+     "size": 29,
+     "font": "Instrument Sans"
+    },
+    "headings": [
+     {
+      "text": "Sign in to your chats",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 29,
+      "vw": 3.8,
+      "font": "Instrument Sans",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.38,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.46,
+      "top": 400,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Instrument Sans",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      14,
+      29
+     ],
+     "sizeCount": 3,
+     "notLoaded": [],
+     "body": {
+      "font": "Instrument Sans",
+      "size": 14,
+      "leading": 1.43,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.4
+     },
+     "measureChars": 51,
+     "max": {
+      "size": 29,
+      "vw": 3.8,
+      "font": "Instrument Sans",
+      "text": "Sign in to your chats"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#262626",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.15
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#9e9e9e",
+       "share": 0.77
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.17
+      },
+      {
+       "color": "#000000",
+       "share": 0.06
+      }
+     ],
+     "button": {
+      "bg": "#67bdb3",
+      "hsl": {
+       "h": 173,
+       "s": 0.39,
+       "l": 0.57
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign in"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 1,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 1,
+     "boxRadius": 22,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": [
+     "instrument sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 1024,
+    "margins": {
+     "left": 206,
+     "right": 206
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Sign in to your chats",
+      "size": 29,
+      "top": 400,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 206,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 14,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 206,
+     "right": 206
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 29,
+     "vw": 3.8,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.38,
+     "top": 400,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 1,
+     "radii": [
+      [
+       22,
+       1
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#ffffff on #1b1b1b (17.22:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.13,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      12,
+      14,
+      29
+     ]
+    },
+    "title": {
+     "text": "Sign in to your chats",
+     "size": 29,
+     "top": 400
+    },
+    "colourShare": 0
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 1,
+   "filled": [
+    0.99
+   ],
+   "motion": {
+    "elements": 1,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 1,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 844,
+     "screens": 1,
+     "words": 25,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 0,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 30,
+     "vw": 7.7,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.47,
+     "top": 300,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "lines": 1,
+     "size": 30,
+     "font": "Instrument Sans"
+    },
+    "headings": [
+     {
+      "text": "Sign in to your chats",
+      "words": 5,
+      "chars": 21,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Instrument Sans",
+      "weight": 600,
+      "tracking": 0,
+      "leading": 1.47,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 300,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Instrument Sans",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      14,
+      16,
+      30
+     ],
+     "sizeCount": 3,
+     "notLoaded": [],
+     "body": {
+      "font": "Instrument Sans",
+      "size": 16,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.4
+     },
+     "measureChars": 37,
+     "max": {
+      "size": 30,
+      "vw": 7.7,
+      "font": "Instrument Sans",
+      "text": "Sign in to your chats"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#262626",
+       "top": 0,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.15
+       }
+      },
+      {
+       "color": "#1b1b1b",
+       "top": 216,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.11
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#9e9e9e",
+       "share": 0.77
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.17
+      },
+      {
+       "color": "#000000",
+       "share": 0.06
+      }
+     ],
+     "button": {
+      "bg": "#67bdb3",
+      "hsl": {
+       "h": 173,
+       "s": 0.39,
+       "l": 0.57
+      },
+      "fg": "#000000"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 1,
+     "inHero": 1,
+     "radius": "pill",
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Sign in"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 1,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 1,
+     "boxRadius": 22,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": null,
+    "fontsLoaded": [
+     "instrument sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 844,
+    "margins": {
+     "left": 48,
+     "right": 48
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Sign in to your chats",
+      "size": 30,
+      "top": 300,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 48,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 1,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#ffffff",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 48,
+     "right": 48
+    },
+    "hero": {
+     "text": "Sign in to your chats",
+     "words": 5,
+     "chars": 21,
+     "lines": 1,
+     "size": 30,
+     "vw": 7.7,
+     "font": "Instrument Sans",
+     "weight": 600,
+     "tracking": 0,
+     "leading": 1.47,
+     "top": 300,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 0,
+    "layout": {
+     "panels": 1,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 1,
+     "radii": [
+      [
+       22,
+       1
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#ffffff on #1b1b1b (17.22:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 0,
+     "tabularShare": null,
+     "kpiMax": null
+    },
+    "rows": null,
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      14,
+      16,
+      30
+     ]
+    },
+    "title": {
+     "text": "Sign in to your chats",
+     "size": 30,
+     "top": 300
+    },
+    "colourShare": 0
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "hero-void",
+   "width": 1440,
+   "message": "33% of the first screen is one empty block (540×780px at 0,120).",
+   "fix": "Place the void on purpose or fill it: move the picture, the film or one fact into it, grow the headline to meet it, or shrink the screen to its content. A void reads as placed only when something closes it on the far side and it is the screen's one rest."
+  },
+  {
+   "level": "WARN",
+   "id": "app-title-size",
+   "width": 390,
+   "message": "The h1 is 30px (\"Sign in to your chats\").",
+   "fix": "An app screen is not a landing page: the title is 18-32px (20-24px on a phone)."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/desktop-fold.jpg",
+   "pages": [
+    "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/tablet-fold.jpg",
+   "pages": [
+    "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/mobile-fold.jpg",
+   "pages": [
+    "/Users/nads/Desktop/openai-chatbot/client/.taste-skill/inspect-login/mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}
