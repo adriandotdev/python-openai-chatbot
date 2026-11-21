@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "instrument sans",
+        "createdAt": "2026-11-21T04:55:10.946Z",
+        "reason": "Claude: Instrument Sans is the project's existing typeface, already loaded in app/layout.tsx and used by the chat theme; login matches it for consistency. Not user confirmed."
+      }
+    ]
+  }
+}

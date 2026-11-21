@@ -3,10 +3,12 @@
 // theme ships no shade it does not use.
 // prettier-ignore
 export const chatPaletteRefs = {
-  accent: {
-    light: {35: '#166059', 40: '#1b6e66', 85: '#a9e2da'},
-    dark: {30: '#00534c', 70: '#67bdb3', 80: '#99d4cc'},
+  neutral: {
+    light: {0: '#000000', 30: '#384669', 45: '#5b6b94', 60: '#7f91bb', 85: '#c6d4f6', 95: '#ebf1ff', 100: '#ffffff'},
+    dark: {5: '#0b101e', 10: '#141b2d', 35: '#445276', 65: '#8f9dc2', 80: '#b9c6e6', 100: '#ffffff'},
   },
-  white: '#ffffff',
-  black: '#000000',
+  accent: {
+    light: {35: '#274bb9', 85: '#c1d4ff'},
+    dark: {30: '#233f90', 80: '#acc6ff'},
+  },
 };

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Theme } from "@astryxdesign/core/theme";
-import { themes, defaultThemeSlug } from "../astryx-themes";
+import { ColorModeProvider } from "./color-mode";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OpenAI Chatbot",
-  description: "Chatbot client built with Next.js and Astryx",
+  title: "Flâneur — Paris travel chat",
+  description: "Plan your Paris trip in one conversation.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -24,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        <Theme theme={themes[defaultThemeSlug]}>{children}</Theme>
+        <ColorModeProvider>{children}</ColorModeProvider>
       </body>
     </html>
   );

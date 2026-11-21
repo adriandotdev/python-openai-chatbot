@@ -1,0 +1,34 @@
+/* Chat empty state: the same Paris photograph as the sign-in screen. */
+.chat-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(140px, 24vh, 220px);
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-container);
+  background: #0b1a52;
+}
+
+.chat-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 42% 12%;
+}
+
+.chat-hero figcaption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 24px 12px 6px;
+  font-size: 11px;
+  color: #fff;
+  background: linear-gradient(to top, rgb(5 10 36 / 0.75), rgb(5 10 36 / 0));
+}
+
+@media (max-height: 640px) {
+  .chat-hero {
+    display: none;
+  }
+}

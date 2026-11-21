@@ -4,12 +4,32 @@
     {
       "id": "accent",
       "name": "Accent",
-      "seed": "#1b6e66",
+      "seed": "#1f3fa8",
       "anchors": [
         {
           "mode": "light",
-          "stop": 40,
-          "color": "#1b6e66",
+          "stop": 30,
+          "color": "#1f3fa8",
+          "policy": "exact"
+        }
+      ]
+    },
+    {
+      "id": "neutral",
+      "name": "Neutral",
+      "seed": "#5b6b94",
+      "kind": "neutral",
+      "anchors": [
+        {
+          "mode": "light",
+          "stop": 45,
+          "color": "#5b6b94",
+          "policy": "exact"
+        },
+        {
+          "mode": "dark",
+          "stop": 45,
+          "color": "#5b6b94",
           "policy": "exact"
         }
       ]

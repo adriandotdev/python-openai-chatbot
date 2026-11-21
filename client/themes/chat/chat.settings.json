@@ -4,11 +4,6 @@
   "mode": "both",
   "settings": [
     {
-      "thing": "accent",
-      "value": "#1b6e66",
-      "source": "dial"
-    },
-    {
       "thing": "font",
       "value": "Instrument Sans",
       "source": "dial"
@@ -24,8 +19,66 @@
       "value": "pill",
       "source": "dial",
       "on": "button"
+    },
+    {
+      "thing": "accent",
+      "value": "#1F3FA8",
+      "source": "dial"
+    },
+    {
+      "thing": "neutral",
+      "value": "#5B6B94",
+      "source": "dial"
+    },
+    {
+      "thing": "--color-background-body",
+      "value": "#EDF0F8",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-background-muted",
+      "value": "#EDF0F8",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-background-body",
+      "value": "#0A1236",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-muted",
+      "value": "#0A1236",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-surface",
+      "value": "#111B4A",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-background-card",
+      "value": "#111B4A",
+      "source": "token",
+      "mode": "dark"
+    },
+    {
+      "thing": "--color-text-primary",
+      "value": "#0D1633",
+      "source": "token",
+      "mode": "light"
+    },
+    {
+      "thing": "--color-accent",
+      "value": "#7D97FF",
+      "source": "token",
+      "mode": "dark"
     }
   ],
   "lifted": [],
-  "palette": "1a7e77d5a6172f641fad91c8b41dd53dbb19b0fa102c938e5eeb1580df5a58c8"
+  "palette": "e732f418fc7a8d1de8bea574c4d084d02a2094f540add7c7753893d7dff2c7e3"
 }

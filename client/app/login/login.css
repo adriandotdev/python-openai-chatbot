@@ -1,0 +1,240 @@
+/* Login: a Paris blue-hour photograph beside a plain sign-in column. */
+
+.login {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  min-height: 100dvh;
+  background: var(--color-background-body);
+}
+
+/* ---------- Photograph panel ---------- */
+
+.login-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 40px 48px 32px;
+  min-height: 100dvh;
+  background: #0b1a52;
+  color: #fff;
+}
+
+.login-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 34% 40%;
+  transform-origin: 60% 60%;
+  animation: login-drift 28s ease-out both;
+}
+
+.login-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgb(5 10 36 / 0.92) 0%,
+    rgb(5 10 36 / 0.7) 32%,
+    rgb(5 10 36 / 0) 62%
+  );
+}
+
+.login-brand {
+  margin: 0;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+/* Chat fragment: what the app does, shown rather than described. */
+
+.login-thread {
+  position: absolute;
+  top: 64px;
+  right: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 340px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.login-bubble {
+  margin: 0;
+  max-width: 300px;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  border-radius: 18px;
+  animation: login-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.login-bubble--user {
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  background: #f5b82e;
+  color: #1a1405;
+  animation-delay: 0.5s;
+}
+
+.login-bubble--guide {
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  background: #fff;
+  color: #0d1633;
+  animation-delay: 1.3s;
+}
+
+.login-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 460px;
+}
+
+.login-title {
+  margin: 0;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: clamp(40px, 4.6vw, 68px);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #fff;
+  text-wrap: balance;
+  animation: login-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
+}
+
+.login-lede {
+  margin: 0;
+  max-width: 420px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #fff;
+  animation: login-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+
+.login-credit {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgb(255 255 255 / 0.82);
+}
+
+.login-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- Form column ---------- */
+
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 48px;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 380px;
+  animation: login-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
+}
+
+.login-form-title {
+  margin: 0;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes login-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes login-drift {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-photo,
+  .login-bubble,
+  .login-title,
+  .login-lede,
+  .login-form {
+    animation: none;
+  }
+}
+
+/* ---------- Phone and narrow tablet: photo band above the form ---------- */
+
+@media (max-width: 899px) {
+  .login {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+
+  .login-scene {
+    min-height: 0;
+    gap: 28px;
+    padding: 24px 20px 20px;
+  }
+
+  .login-photo {
+    object-position: 30% 30%;
+  }
+
+  .login-scrim {
+    background: linear-gradient(
+      to top,
+      rgb(5 10 36 / 0.92) 0%,
+      rgb(5 10 36 / 0.55) 55%,
+      rgb(5 10 36 / 0.15) 100%
+    );
+  }
+
+  .login-thread {
+    display: none;
+  }
+
+  .login-scene {
+    padding-top: 24px;
+    min-height: 320px;
+  }
+
+  .login-title {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+
+  .login-lede {
+    font-size: 16px;
+  }
+
+  .login-panel {
+    align-items: flex-start;
+    padding: 32px 20px 40px;
+  }
+}

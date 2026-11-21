@@ -17,6 +17,8 @@ import { Item } from "@astryxdesign/core/Item";
 import { Markdown } from "@astryxdesign/core/Markdown";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import "./chat.css";
+import { useColorMode } from "./color-mode";
 import {
   API_URL,
   clearSession,
@@ -57,6 +59,7 @@ export default function Page() {
   // Id of the conversation being continued; null means a new chat.
   const [activeId, setActiveId] = useState<string | null>(null);
   const isNarrow = useIsNarrow();
+  const { mode, toggle: toggleMode } = useColorMode();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
@@ -163,12 +166,12 @@ export default function Page() {
 
   const hour = new Date().getHours();
   const greeting =
-    hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    hour < 12 ? "Bonjour" : hour < 18 ? "Bon après-midi" : "Bonsoir";
 
   const starters = [
-    "Explain a concept in simple terms",
-    "Help me draft a short email",
-    "Review a piece of code with me",
+    "Plan a three-day first visit to Paris",
+    "Where should I eat tonight in the Marais?",
+    "How do I get from CDG airport to the city?",
   ];
 
   return (
@@ -186,11 +189,17 @@ export default function Page() {
           paddingBlock={4}
           gap={4}
         >
-          <HStack gap={2} align="center" paddingInline={1}>
-            <Avatar name="Chatbot" size={32} shape="rounded" tooltip={false} />
+          <HStack gap={2} align="center" justify="between" paddingInline={1}>
             <Heading level={2} weight="semibold">
-              Chatbot
+              Flâneur
             </Heading>
+            <Button
+              label={mode === "dark" ? "Light" : "Dark"}
+              aria-label={`Switch to ${mode === "dark" ? "light" : "dark"} mode`}
+              variant="ghost"
+              size="sm"
+              onClick={toggleMode}
+            />
           </HStack>
           <Button
             label="New chat"
@@ -262,19 +271,32 @@ export default function Page() {
                 <ChatComposer
                   onSubmit={handleSubmit}
                   isDisabled={isLoading}
-                  placeholder="Ask anything..."
+                  placeholder="Ask about Paris..."
                   elevation="none"
                 />
               }
               emptyState={
-                <VStack gap={5} align="center" maxWidth="560px" padding={4}>
+                <VStack gap={5} align="center" maxWidth="600px" padding={4}>
+                  <figure className="chat-hero">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/paris-blue-hour.jpg"
+                      alt="The Eiffel Tower lit gold against a deep blue evening sky"
+                      width={1920}
+                      height={1280}
+                      decoding="async"
+                    />
+                    <figcaption>
+                      Photo: alyssa BLACK., CC BY-SA 2.0, via Wikimedia Commons
+                    </figcaption>
+                  </figure>
                   <VStack gap={2} align="center">
                     <Heading level={1} type="display-3">
                       {greeting}, {session.username}.
                     </Heading>
                     <Text color="secondary">
-                      Ask a question, or pick up one of your past chats from the
-                      sidebar.
+                      Ask about where to stay, what to eat or how to get around, or
+                      pick up a past trip from the sidebar.
                     </Text>
                   </VStack>
                   <HStack gap={2} wrap="wrap" justify="center">
@@ -309,7 +331,7 @@ export default function Page() {
                   {isLoading && (
                     <ChatMessage sender="assistant">
                       <ChatMessageBubble>
-                        <Text color="secondary">Thinking...</Text>
+                        <Text color="secondary">Finding the way...</Text>
                       </ChatMessageBubble>
                     </ChatMessage>
                   )}
