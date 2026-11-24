@@ -74,6 +74,50 @@ function TypedMarkdown({ text, animate }: { text: string; animate?: boolean }) {
   return <Markdown>{skip || count >= text.length ? text : text.slice(0, count)}</Markdown>;
 }
 
+// Matches a pasted text that is just one http(s) link.
+function parseLink(text: string): URL | null {
+  const t = text.trim();
+  if (!/^https?:\/\/\S+$/i.test(t)) return null;
+  try {
+    return new URL(t);
+  } catch {
+    return null;
+  }
+}
+
+// Static sample chat page shown for a pasted link. Fetching the real page isn't
+// possible from the browser (CORS), so this is an illustrative mock.
+function LinkPreview({ url, onDismiss }: { url: URL; onDismiss: () => void }) {
+  return (
+    <aside className="link-preview" aria-label={`Link preview for ${url.hostname}`}>
+      <div className="link-preview-page" aria-hidden="true">
+        <div className="lp-side">
+          <i /><i /><i />
+        </div>
+        <div className="lp-main">
+          <span className="lp-bubble lp-user" />
+          <span className="lp-bubble lp-bot" />
+          <span className="lp-bubble lp-bot lp-short" />
+          <span className="lp-input" />
+        </div>
+      </div>
+      <div className="link-preview-meta">
+        <p className="link-preview-host">{url.hostname}</p>
+        <p className="link-preview-url">{url.href}</p>
+        <p className="link-preview-note">Sample chat page</p>
+      </div>
+      <button
+        type="button"
+        className="link-preview-close"
+        aria-label="Remove link preview"
+        onClick={onDismiss}
+      >
+        ×
+      </button>
+    </aside>
+  );
+}
+
 function toMessages(history: Conversation["messages"]): Message[] {
   return history
     .filter((m) => (m.role as string) !== "system")
@@ -109,6 +153,8 @@ export default function Page() {
   // Conversation awaiting delete confirmation.
   const [pendingDelete, setPendingDelete] = useState<Conversation | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  // Link pasted into the composer, previewed above it.
+  const [linkPreview, setLinkPreview] = useState<URL | null>(null);
 
   useEffect(() => {
     const stored = loadSession();
@@ -196,6 +242,7 @@ export default function Page() {
   async function handleSubmit(text: string) {
     const message = text.trim();
     if (!message || isLoading || !session) return;
+    setLinkPreview(null);
 
     const id = Date.now();
     setMessages((prev) => [...prev, { id, role: "user", content: message }]);
@@ -372,12 +419,25 @@ export default function Page() {
             <ChatLayout
               density="spacious"
               composer={
-                <ChatComposer
-                  onSubmit={handleSubmit}
-                  isDisabled={isLoading}
-                  placeholder="Where to next in Paris?"
-                  elevation="none"
-                />
+                <div
+                  onPaste={(e) => {
+                    const link = parseLink(e.clipboardData.getData("text"));
+                    if (link) setLinkPreview(link);
+                  }}
+                >
+                  {linkPreview && (
+                    <LinkPreview
+                      url={linkPreview}
+                      onDismiss={() => setLinkPreview(null)}
+                    />
+                  )}
+                  <ChatComposer
+                    onSubmit={handleSubmit}
+                    isDisabled={isLoading}
+                    placeholder="Where to next in Paris?"
+                    elevation="none"
+                  />
+                </div>
               }
               emptyState={
                 <section className="chat-welcome" aria-label="Start a conversation">
