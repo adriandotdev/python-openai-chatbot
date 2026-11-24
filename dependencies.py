@@ -40,3 +40,19 @@ def get_user(username: str):
     for row in user_messages:
         if row['username'] == username:
             return row
+
+
+def strip_system_messages(record):
+    """Return a copy of a user record without internal system prompts."""
+    return {
+        **record,
+        "messages": [
+            {
+                **c,
+                "conversation": [
+                    m for m in c.get("conversation", []) if m.get("role") != "system"
+                ],
+            }
+            for c in record.get("messages", [])
+        ],
+    }

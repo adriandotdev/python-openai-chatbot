@@ -3,7 +3,7 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException
 from openai import AsyncOpenAI
 
-from dependencies import get_client, get_current_user, get_user, get_user_messages
+from dependencies import get_client, get_current_user, get_user, get_user_messages, strip_system_messages
 
 from schemas.chat import ChatRequest, Conversation
 from schemas.common import ApiResponse
@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/v1/messages", tags=["messages"])
 @router.get('')
 def get_conversations(username: str = Depends(get_current_user)):
     
-    return get_user(username)
+    return strip_system_messages(get_user(username))
 
 @router.post("/chat")
 async def create_chat(body: ChatRequest, username: str = Depends(get_current_user), user_messages: list[UserRecord] = Depends(get_user_messages), client: AsyncOpenAI = Depends(get_client)) -> ApiResponse:

@@ -75,7 +75,9 @@ function TypedMarkdown({ text, animate }: { text: string; animate?: boolean }) {
 }
 
 function toMessages(history: Conversation["messages"]): Message[] {
-  return history.map((m, i) => ({ id: i, role: m.role, content: m.content }));
+  return history
+    .filter((m) => (m.role as string) !== "system")
+    .map((m, i) => ({ id: i, role: m.role, content: m.content }));
 }
 
 // Sidebar previews show plain text, not raw markdown from the model.

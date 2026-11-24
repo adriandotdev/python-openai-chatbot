@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from dependencies import get_user_list, get_user_messages
+from dependencies import get_user_list, get_user_messages, strip_system_messages
 from helpers.jwt_helper import create_access_token
 from helpers.password_helper import verify_password
 from schemas.user import UserRecord, UserRequest
@@ -35,7 +35,7 @@ async def login(body: UserRequest, user_list: list[UserRequest] = Depends(get_us
             break
         
     data = {
-        "chat": chat,
+        "chat": strip_system_messages(chat) if chat else chat,
         "access_token": access_token
     }
     
