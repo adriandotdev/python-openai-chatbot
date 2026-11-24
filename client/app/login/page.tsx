@@ -9,6 +9,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { TextInput } from "@astryxdesign/core/TextInput";
 import { VStack } from "@astryxdesign/core/VStack";
 import "./login.css";
+import { ColorModeToggle } from "../color-mode";
 import { loadSession, login, saveSession } from "../../lib/auth";
 
 export default function LoginPage() {
@@ -97,6 +98,9 @@ export default function LoginPage() {
       </section>
 
       <section className="login-panel">
+        <div className="login-mode">
+          <ColorModeToggle />
+        </div>
         <form className="login-form" onSubmit={handleSubmit}>
           <VStack gap={5}>
             <VStack gap={1}>

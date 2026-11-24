@@ -20,7 +20,7 @@ import { Markdown } from "@astryxdesign/core/Markdown";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import "./chat.css";
-import { useColorMode } from "./color-mode";
+import { ColorModeToggle } from "./color-mode";
 import {
   API_URL,
   clearSession,
@@ -105,7 +105,6 @@ export default function Page() {
   // Id of the conversation being continued; null means a new chat.
   const [activeId, setActiveId] = useState<string | null>(null);
   const isNarrow = useIsNarrow();
-  const { mode, toggle: toggleMode } = useColorMode();
   const [isNavOpen, setIsNavOpen] = useState(false);
   // Conversation awaiting delete confirmation.
   const [pendingDelete, setPendingDelete] = useState<Conversation | null>(null);
@@ -298,13 +297,7 @@ export default function Page() {
         >
           <HStack gap={2} align="center" justify="between" paddingInline={1}>
             <h2 className="chat-wordmark">Flâneur</h2>
-            <Button
-              label={mode === "dark" ? "Light" : "Dark"}
-              aria-label={`Switch to ${mode === "dark" ? "light" : "dark"} mode`}
-              variant="ghost"
-              size="sm"
-              onClick={toggleMode}
-            />
+            <ColorModeToggle />
           </HStack>
           <Button
             label="New chat"
