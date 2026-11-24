@@ -69,7 +69,9 @@ function TypedMarkdown({ text, animate }: { text: string; animate?: boolean }) {
     return () => cancelAnimationFrame(raf);
   }, [text]);
 
-  return <Markdown>{count >= text.length ? text : text.slice(0, count)}</Markdown>;
+  // `skip` is checked on every render: React reuses this instance across
+  // conversations (history ids are 0..n), so `count` can be stale for new text.
+  return <Markdown>{skip || count >= text.length ? text : text.slice(0, count)}</Markdown>;
 }
 
 function toMessages(history: Conversation["messages"]): Message[] {
