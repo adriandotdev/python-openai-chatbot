@@ -18,6 +18,8 @@ from schemas.user import UserRequest, UserRecord, UserMessages
 from schemas.common import ApiResponse
 from config import settings
 
+from routers import auth
+
 app = FastAPI()
 
 app.add_middleware(
@@ -26,6 +28,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(auth.router)
 
 client = AsyncOpenAI(
     base_url='https://openrouter.ai/api/v1',
@@ -221,40 +224,40 @@ async def create_user(body: UserRequest) -> ApiResponse:
         "data": data
     }
     
-@app.post("/api/v1/auth/login")
-async def login(body: UserRequest):
+# @app.post("/api/v1/auth/login")
+# async def login(body: UserRequest):
     
-    user = None
+#     user = None
     
-    for u in user_list:
-        if u["username"] == body.username:
-            user = u
-            break
+#     for u in user_list:
+#         if u["username"] == body.username:
+#             user = u
+#             break
         
-    if user is None:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+#     if user is None:
+#         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    is_password_valid = verify_password(body.password, user["password"])
+#     is_password_valid = verify_password(body.password, user["password"])
     
-    if is_password_valid is False:
-        raise HTTPException(status_code = 401, detail="Invalid credentials")
+#     if is_password_valid is False:
+#         raise HTTPException(status_code = 401, detail="Invalid credentials")
     
-    access_token = create_access_token({"username": body.username, "type": "access_token"})
+#     access_token = create_access_token({"username": body.username, "type": "access_token"})
     
-    chat = None
+#     chat = None
     
-    for row in user_messages:
-        if row['username'] == user['username']:
-            chat = row
-            break
+#     for row in user_messages:
+#         if row['username'] == user['username']:
+#             chat = row
+#             break
         
-    data = {
-        "chat": chat,
-        "access_token": access_token
-    }
+#     data = {
+#         "chat": chat,
+#         "access_token": access_token
+#     }
     
-    return {
-        "status": 201,
-        "message": "Logged in successfully",
-        "data": data
-    }
+#     return {
+#         "status": 201,
+#         "message": "Logged in successfully",
+#         "data": data
+#     }
