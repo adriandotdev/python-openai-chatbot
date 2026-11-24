@@ -63,6 +63,27 @@ export async function deleteConversation(
   if (!res.ok) throw new Error(`Delete failed (${res.status})`);
 }
 
+type AuthResponse = {
+  data: {
+    access_token: string;
+    chat: {
+      username: string;
+      messages: { id: string; conversation: ChatMessageData[] }[];
+    } | null;
+  };
+};
+
+function toSession(username: string, json: AuthResponse): Session {
+  return {
+    username,
+    accessToken: json.data.access_token,
+    conversations: (json.data.chat?.messages ?? []).map((c) => ({
+      id: c.id,
+      messages: c.conversation,
+    })),
+  };
+}
+
 export async function login(
   username: string,
   password: string,
@@ -72,26 +93,31 @@ export async function login(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
-  if (!res.ok) {
+  if (res.status !== 200) {
     throw new Error(
-      res.status === 401 ? "Invalid username or password." : `Login failed (${res.status})`,
+      res.status === 401
+        ? "Invalid username or password."
+        : `Login failed (${res.status})`,
     );
   }
-  const json: {
-    data: {
-      access_token: string;
-      chat: {
-        username: string;
-        messages: { id: string; conversation: ChatMessageData[] }[];
-      } | null;
-    };
-  } = await res.json();
-  return {
-    username,
-    accessToken: json.data.access_token,
-    conversations: (json.data.chat?.messages ?? []).map((c) => ({
-      id: c.id,
-      messages: c.conversation,
-    })),
-  };
+  return toSession(username, await res.json());
+}
+
+export async function signup(
+  username: string,
+  password: string,
+): Promise<Session> {
+  const res = await fetch(`${API_URL}/api/v1/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  if (!res.ok) {
+    throw new Error(
+      res.status === 400
+        ? "That username is already taken."
+        : `Sign up failed (${res.status})`,
+    );
+  }
+  return toSession(username, await res.json());
 }

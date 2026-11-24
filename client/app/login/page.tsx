@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Banner } from "@astryxdesign/core/Banner";
 import { Button } from "@astryxdesign/core/Button";
@@ -135,6 +136,9 @@ export default function LoginPage() {
               isLoading={isLoading}
               isDisabled={!username.trim() || !password}
             />
+            <Text color="secondary">
+              New here? <Link href="/signup">Create an account</Link>
+            </Text>
           </VStack>
         </form>
       </section>

@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from dependencies import get_user_list, get_user_messages, strip_system_messages
 from helpers.jwt_helper import create_access_token
-from helpers.password_helper import verify_password
+from helpers.password_helper import get_password_hash, verify_password
 from schemas.user import UserRecord, UserRequest
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
@@ -40,7 +40,42 @@ async def login(body: UserRequest, user_list: list[UserRequest] = Depends(get_us
     }
     
     return {
-        "status": 201,
+        "status": 200,
         "message": "Logged in successfully",
         "data": data
     }
+    
+@router.post('/signup')
+async def signup(body: UserRequest, user_list: list[UserRequest] = Depends(get_user_list), user_messages: list[UserRecord] = Depends(get_user_messages)):
+    
+   user =  next((u for u in user_list if str.lower(u["username"]) == str.lower(body.username)), None)
+   
+   print(user)
+   
+   if user is not None:
+       raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Username already exists")
+
+   
+   hashed_password = get_password_hash(body.password)
+   
+   user_list.append({
+       "username": body.username,
+       "password": hashed_password
+   })
+   
+   user_messages.append({
+       "username": body.username,
+       "messages": []
+   })
+   
+   access_token = create_access_token({"username": body.username, "type": "access_token"})
+   
+   data = {
+       "chat": None,
+       "access_token": access_token
+   }
+   return {
+       "status": 201,
+       "message": "Signed up successfully",
+       "data": data
+   }
